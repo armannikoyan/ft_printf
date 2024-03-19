@@ -6,7 +6,7 @@
 #    By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 23:53:16 by anikoyan          #+#    #+#              #
-#    Updated: 2024/03/18 15:25:33 by anikoyan         ###   ########.fr        #
+#    Updated: 2024/03/10 20:24:14 by anikoyan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ $(OBJS_BONUS): $(OBJ_DIR)/%.o: %.c
 	$(CC) $(C_FLAGS) -c $< -o $@
 
 clean:
-	$(RM) -r $(OBJ_DIR) 2>/dev/null || true
+	rm -r $(OBJ_DIR) 2>/dev/null || true
 
 fclean: clean
 	$(RM) $(NAME)
