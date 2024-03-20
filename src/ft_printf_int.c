@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:44:29 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/20 19:09:08 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:11:12 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int	ft_printf_int(int nbr, t_flags flags)
 	int		len;
 	int		padding_width;
 
-	if (ft_handle_error(&flags))
-		return (0);
 	result = 0;
 	number = ft_itoa(nbr);
 	if (!number)
