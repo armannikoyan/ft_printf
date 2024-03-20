@@ -6,18 +6,11 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:00:15 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/12 16:34:24 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:09:01 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
-
-static int	ft_handle_error(t_flags *flags)
-{
-	if (flags->hash || flags->space || flags->plus)
-		return (1);
-	return (0);
-}
 
 static int	ft_process_flags(char **number, unsigned int *u_nbr,
 	int *padding_width, t_flags *flags)
@@ -55,8 +48,6 @@ int	ft_printf_unsigned(unsigned int u_nbr, t_flags flags)
 	int		len;
 	int		padding_width;
 
-	if (ft_handle_error(&flags))
-		return (0);
 	result = 0;
 	number = ft_uitoa(u_nbr);
 	if (!number)
@@ -70,7 +61,7 @@ int	ft_printf_unsigned(unsigned int u_nbr, t_flags flags)
 		free(number);
 		number = NULL;
 	}
-	if (flags.minus)
+	if (flags.minus == 1)
 		ft_printf_putchar(3, ' ', &result, &padding_width);
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 21:01:48 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/10 21:01:51 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:04:58 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_init_flags(t_flags *flags)
 {
 	flags->zero = 0;
-	flags->minus = 0;
+	flags->minus = -1;
 	flags->hash = 0;
 	flags->space = 0;
 	flags->plus = 0;
@@ -25,6 +25,9 @@ static void	ft_init_flags(t_flags *flags)
 
 static void	ft_parse_width(const char *format, t_flags *flags)
 {
+	if (!flags->zero && flags->minus == -1 && !flags->hash
+		&& !flags->space && !flags->plus && flags->precision == -1)
+		flags->minus = 0;
 	if (ft_isdigit(*format))
 		flags->width = ft_atoi(format);
 }

@@ -6,18 +6,11 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:55:00 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/13 00:50:20 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:09:18 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
-
-static int	ft_handle_error(t_flags flags)
-{
-	if (flags.space || flags.plus)
-		return (1);
-	return (0);
-}
 
 static void	ft_str_toupper(char **str, char c)
 {
@@ -84,8 +77,6 @@ int	ft_printf_hex(unsigned int u_nbr, t_flags flags, char c)
 	int		result;
 	int		padding_width;
 
-	if (ft_handle_error(flags))
-		return (0);
 	result = 0;
 	hex = ft_uitoa_base(u_nbr, 16);
 	if (!hex)
@@ -102,7 +93,7 @@ int	ft_printf_hex(unsigned int u_nbr, t_flags flags, char c)
 		result += ft_strlen(hex);
 		free(hex);
 	}
-	if (flags.minus)
+	if (flags.minus == 1)
 		ft_printf_putchar(3, ' ', &result, &padding_width);
 	return (result);
 }

@@ -6,18 +6,11 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:44:29 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/12 16:31:39 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:09:08 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
-
-static int	ft_handle_error(t_flags *flags)
-{
-	if (flags->hash)
-		return (1);
-	return (0);
-}
 
 static void	ft_remove_sign_from_string(char **number, int *len, int *result)
 {
@@ -110,7 +103,7 @@ int	ft_printf_int(int nbr, t_flags flags)
 		free(number);
 		number = 0;
 	}
-	if (flags.minus)
+	if (flags.minus == 1)
 		ft_printf_putchar(3, ' ', &result, &padding_width);
 	return (result);
 }
