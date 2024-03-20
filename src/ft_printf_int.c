@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:44:29 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/20 19:11:12 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/20 20:56:23 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,22 @@ static int	ft_process_flags_helper(char **number, int *nbr,
 	int	len;
 
 	result = 0;
-	len = ft_strlen(*number);
 	if (!(*nbr) && !flags->precision)
 	{
 		free(*number);
 		*number = NULL;
-		if (flags->width)
+		if (*padding_width && (!flags->space && *nbr >= 0))
 			(*padding_width)++;
 	}
+	len = ft_strlen(*number);
 	if (flags->precision != -1 && flags->zero)
 	{
 		if (*number && **number == '-' && flags->precision > len)
 			(*padding_width)--;
 		ft_printf_putchar(3, ' ', &result, padding_width);
 	}
+	if (!flags->minus)
+		ft_printf_putchar(3, ' ', &result, padding_width);
 	if (flags->space && *nbr >= 0)
 		ft_printf_putchar(2, ' ', &result);
 	else if (flags->plus && *nbr >= 0)
@@ -57,8 +59,8 @@ static int	ft_process_flags(char **number, int *nbr,
 	int	result;
 	int	len;
 
-	len = ft_strlen(*number);
 	result = ft_process_flags_helper(number, nbr, padding_width, flags);
+	len = ft_strlen(*number);
 	if (flags->precision != -1)
 	{
 		if (*number && **number == '-')
@@ -76,8 +78,6 @@ static int	ft_process_flags(char **number, int *nbr,
 			ft_remove_sign_from_string(number, &len, &result);
 		ft_printf_putchar(3, '0', &result, padding_width);
 	}
-	else if (!flags->minus)
-		ft_printf_putchar(3, ' ', &result, padding_width);
 	return (result);
 }
 
@@ -94,6 +94,10 @@ int	ft_printf_int(int nbr, t_flags flags)
 		return (0);
 	len = ft_strlen(number);
 	padding_width = ft_calculate_padding(len, &flags);
+	if ((flags.minus != -1 && flags.space && nbr >= 0)
+		|| (!flags.minus && flags.precision >= len && nbr < 0)
+		|| (flags.minus != -1 && flags.plus && nbr >= 0))
+		padding_width--;
 	result += ft_process_flags(&number, &nbr, &padding_width, &flags);
 	if (number)
 	{
