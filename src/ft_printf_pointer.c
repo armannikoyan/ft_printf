@@ -6,55 +6,71 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 00:27:06 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/20 19:08:13 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:46:43 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-static void	ft_add_sign_to_string(char **number, int *len)
+static char	*ft_padding(char c, int width)
 {
-	char	*new_number;
-	int		new_len;
+	char	*padding;
 
-	new_len = *len + 2;
-	new_number = malloc(sizeof(char) * (new_len + 1));
-	ft_strlcpy(new_number, "0x", (sizeof(char) * (new_len + 1)));
-	ft_strlcat(new_number, *number, (sizeof(char) * (new_len + 1)));
-	free(*number);
-	*number = new_number;
-	*len = new_len;
+	padding = NULL;
+	padding = (char *)malloc(sizeof(char) * (width + 1));
+	if (!padding)
+		return (NULL);
+	padding[width] = '\0';
+	while (width--)
+		padding[width] = c;
+	return (padding);
 }
 
-static int	ft_process_flags(char **hex, size_t *u_nbr,
-	int *padding_width, t_flags *flags)
+static char	*ft_process_flags(char *hex, int *padding_width, t_flags *flags)
 {
-	int	result;
-	int	len;
+	char	*padding;
+	char	*temp;
 
-	result = 0;
-	len = ft_strlen(*hex);
-	if (!(*u_nbr) && !flags->precision)
+	padding = NULL;
+	temp = NULL;
+	if (flags->width > (int)ft_strlen(hex))
 	{
-		if (flags->width)
-			(*padding_width)++;
-		free(*hex);
-		*hex = NULL;
+		*padding_width = flags->width - ft_strlen(hex);
+		padding = ft_padding(' ', *padding_width);
+		if (!padding)
+		{
+			free(hex);
+			return (NULL);
+		}
+		temp = hex;
+		if (flags->minus == 0)
+			hex = ft_strjoin(padding, hex);
+		else if (flags->minus == 1)
+			hex = ft_strjoin(hex, padding);
+		free(temp);
+		free(padding);
+		if (!hex)
+			return (NULL);
 	}
-	if (flags->precision != -1 && flags->zero)
-		ft_printf_putchar(3, ' ', &result, padding_width);
-	flags->precision -= len;
-	ft_printf_putchar(3, '0', &result, &flags->precision);
-	if (flags->zero)
-		ft_printf_putchar(3, '0', &result, padding_width);
-	else if (flags->plus)
-		ft_printf_putchar(2, '+', &result);
-	else if (!flags->minus)
-		ft_printf_putchar(3, ' ', &result, padding_width);
-	return (result);
+	return (hex);
 }
 
-int	ft_printf_pointer(size_t u_nbr, t_flags flags)
+static char	*ft_convert_pointer(char *hex, size_t u_nbr)
+{
+	char	*ptr;
+
+	hex = ft_uitoa_base(u_nbr, 16);
+	if (!hex)
+		return (NULL);
+	ptr = hex;
+	ptr = ft_strjoin("0x", hex);
+	free(hex);
+	if (!ptr)
+		return (NULL);
+	return (ptr);
+}
+
+int	ft_print_pointer(size_t u_nbr, t_flags *flags)
 {
 	char	*hex;
 	int		result;
@@ -62,21 +78,21 @@ int	ft_printf_pointer(size_t u_nbr, t_flags flags)
 	int		padding_width;
 
 	result = 0;
-	hex = ft_uitoa_base(u_nbr, 16);
+	hex = NULL;
+	hex = ft_convert_pointer(hex, u_nbr);
 	if (!hex)
-		return (0);
-	ft_strrev(hex);
+		return (-1);
+	padding_width = 0;
+	hex = ft_process_flags(hex, &padding_width, flags);
+	if (!hex)
+		return (-1);
 	len = ft_strlen(hex);
-	ft_add_sign_to_string(&hex, &len);
-	padding_width = ft_calculate_padding(len, &flags);
-	result += ft_process_flags(&hex, &u_nbr, &padding_width, &flags);
 	if (hex)
 	{
-		ft_printf("%s", hex);
 		result += len;
+		if (ft_printf("%s", hex) == -1)
+			result = -1;
 		free(hex);
 	}
-	if (flags.minus == 1)
-		ft_printf_putchar(3, ' ', &result, &padding_width);
 	return (result);
 }

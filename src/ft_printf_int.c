@@ -6,82 +6,105 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:44:29 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/20 20:56:23 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:43:11 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-static void	ft_remove_sign_from_string(char **number, int *len, int *result)
+static char	*ft_process_flags(char *number, int padding_width, t_flags *flags)
 {
-	char	*new_number;
+	char	*padding;
+	char	*ptr;
+	int		i;
+	int		len;
 
-	new_number = ft_strdup(&number[0][1]);
-	free(*number);
-	*number = new_number;
-	*len = ft_strlen(*number);
-	ft_printf_putchar(2, '-', result);
-}
-
-static int	ft_process_flags_helper(char **number, int *nbr,
-	int *padding_width, t_flags *flags)
-{
-	int	result;
-	int	len;
-
-	result = 0;
-	if (!(*nbr) && !flags->precision)
+	if (padding_width <= 0 && flags->precision == -1)
+		return (number);
+	if (flags->precision == 0 && number[0] == '0')
 	{
-		free(*number);
-		*number = NULL;
-		if (*padding_width && (!flags->space && *nbr >= 0))
-			(*padding_width)++;
+		free(number);
+		number = ft_strdup("");
+		if (!number)
+			return (NULL);
 	}
-	len = ft_strlen(*number);
-	if (flags->precision != -1 && flags->zero)
+	i = 0;
+	len = ft_strlen(number);
+	if (flags->precision > 0 && flags->precision - len > 0)
 	{
-		if (*number && **number == '-' && flags->precision > len)
-			(*padding_width)--;
-		ft_printf_putchar(3, ' ', &result, padding_width);
-	}
-	if (!flags->minus)
-		ft_printf_putchar(3, ' ', &result, padding_width);
-	if (flags->space && *nbr >= 0)
-		ft_printf_putchar(2, ' ', &result);
-	else if (flags->plus && *nbr >= 0)
-		ft_printf_putchar(2, '+', &result);
-	return (result);
-}
-
-static int	ft_process_flags(char **number, int *nbr,
-	int *padding_width, t_flags *flags)
-{
-	int	result;
-	int	len;
-
-	result = ft_process_flags_helper(number, nbr, padding_width, flags);
-	len = ft_strlen(*number);
-	if (flags->precision != -1)
-	{
-		if (*number && **number == '-')
+		if (number[0] == '-')
+			len--;
+		padding = (char *)malloc(sizeof(char) * (flags->precision - len + 1));
+		if (!padding)
 		{
-			ft_remove_sign_from_string(number, &len, &result);
-			if (flags->precision > len)
-				(*padding_width)--;
+			free(number);
+			return (NULL);
 		}
-		flags->precision -= len;
-		ft_printf_putchar(3, '0', &result, &flags->precision);
+		while (i < flags->precision - len)
+			padding[i++] = '0';
+		padding[i] = '\0';
+		// if (number[0] == '-')
+		// {
+		// 	ptr = number;
+		// 	number = ft_removeprefix(ptr, '-');
+		// 	if (!number)
+		// 		return (NULL);
+		// 	free(ptr);
+		// 	ptr = padding;
+		// 	padding = ft_strjoin(ptr, "-");
+		// 	free(ptr);
+		// 	if (!padding)
+		// 	{
+		// 		free(number);
+		// 		return (NULL);
+		// 	}
+		// }
+		ptr = number;
+		number = ft_strjoin(padding, ptr);
+		free(ptr);
+		free(padding);
+		if (!number)
+			return (NULL);
 	}
-	if (flags->zero)
+	i = 0;
+	if (flags->minus != -1)
 	{
-		if (*number && **number == '-')
-			ft_remove_sign_from_string(number, &len, &result);
-		ft_printf_putchar(3, '0', &result, padding_width);
+		padding = (char *)malloc(sizeof(char) * (padding_width + 1));
+		if (!padding)
+		{
+			free(number);
+			return (NULL);
+		}
+		while (i < padding_width)
+			padding[i++] = ' ';
+		padding[i] = '\0';
+		ptr = number;
+		if (flags->minus == 0)
+			number = ft_strjoin(padding, ptr);
+		else if (flags->minus == 1)
+			number = ft_strjoin(ptr, padding);
+		free(ptr);
+		free(padding);
+		if (!number)
+			return (NULL);
 	}
-	return (result);
+	return (number);
 }
 
-int	ft_printf_int(int nbr, t_flags flags)
+static int	ft_padding_width(char *number, t_flags *flags)
+{
+	int	padding_width;
+	int	len;
+
+	padding_width = 0;
+	len = (int)ft_strlen(number);
+	padding_width = flags->width - len;
+	if (padding_width < 0)
+		padding_width = 0;
+	return (padding_width);
+}
+
+int	ft_print_int(int nbr, t_flags *flags)
 {
 	char	*number;
 	int		result;
@@ -91,21 +114,18 @@ int	ft_printf_int(int nbr, t_flags flags)
 	result = 0;
 	number = ft_itoa(nbr);
 	if (!number)
-		return (0);
-	len = ft_strlen(number);
-	padding_width = ft_calculate_padding(len, &flags);
-	if ((flags.minus != -1 && flags.space && nbr >= 0)
-		|| (!flags.minus && flags.precision >= len && nbr < 0)
-		|| (flags.minus != -1 && flags.plus && nbr >= 0))
-		padding_width--;
-	result += ft_process_flags(&number, &nbr, &padding_width, &flags);
+		return (-1);
+	padding_width = ft_padding_width(number, flags);
+	number = ft_process_flags(number, padding_width, flags);
+	if (!number)
+		return (-1);
+	len = (int)ft_strlen(number);
 	if (number)
 	{
-		result += ft_printf("%s", number);
+		result += len;
+		if (ft_printf("%s", number) == -1)
+			result = -1;
 		free(number);
-		number = 0;
 	}
-	if (flags.minus == 1)
-		ft_printf_putchar(3, ' ', &result, &padding_width);
 	return (result);
 }

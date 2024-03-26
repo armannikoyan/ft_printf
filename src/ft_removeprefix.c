@@ -1,24 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calculate_padding.c                             :+:      :+:    :+:   */
+/*   ft_removeprefic.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 16:31:22 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/12 16:35:33 by anikoyan         ###   ########.fr       */
+/*   Created: 2024/03/26 17:26:18 by anikoyan          #+#    #+#             */
+/*   Updated: 2024/03/26 17:33:53 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-int	ft_calculate_padding(int len, t_flags *flags)
+static int	ft_match(char *str, char c)
 {
-	int	padding_width;
+	int	count;
 
-	if (flags->precision > len)
-		padding_width = flags->width - flags->precision;
-	else
-		padding_width = flags->width - len;
-	return (padding_width);
+	count = 0;
+	while (*str == c)
+	{
+		count++;
+		str++;
+	}
+	return (count);
+}
+
+char	*ft_removeprefix(char *str, char c)
+{
+	char	*new_str;
+	int		i;
+	int		j;
+
+	if (!str)
+		return (NULL);
+	new_str = malloc(sizeof(char) * (ft_strlen(str) - ft_match(str, c) + 1));
+	i = 0;
+	j = 0;
+	while (str[i] && str[i] == c)
+		i++;
+	while (str[i])
+		new_str[j++] = str[i++];
+	return (new_str);
 }

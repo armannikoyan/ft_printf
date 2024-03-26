@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 21:01:48 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/20 20:43:04 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:58:19 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,49 +23,51 @@ static void	ft_init_flags(t_flags *flags)
 	flags->precision = -1;
 }
 
-static void	ft_parse_width(const char *format, t_flags *flags)
+static void	ft_parse_width(const char *fmt, t_flags *flags)
 {
-	if (!flags->zero && flags->minus == -1 && !flags->hash
-		&& flags->precision == -1)
-		flags->minus = 0;
-	if (ft_isdigit(*format))
-		flags->width = ft_atoi(format);
+	if (ft_isdigit(*fmt))
+	{
+		if (!flags->zero && flags->minus == -1 && !flags->hash
+			&& !flags->space && !flags->plus)
+			flags->minus = 0;
+		flags->width = ft_atoi(fmt);
+	}
 }
 
-static void	ft_parse_precision(const char *format, t_flags *flags)
+static void	ft_parse_precision(const char *fmt, t_flags *flags)
 {
-	if (*format == '.')
+	if (*fmt == '.')
 	{
-		format++;
-		if (ft_isdigit(*format))
-			flags->precision = ft_atoi(format);
+		fmt++;
+		if (ft_isdigit(*fmt))
+			flags->precision = ft_atoi(fmt);
 		else
 			flags->precision = 0;
 	}
 }
 
-t_flags	ft_printf_parse_flags(const char *format)
+t_flags	ft_printf_parse_flags(const char *fmt)
 {
 	t_flags	flags;
 
 	ft_init_flags(&flags);
-	while (*format && ft_strchr("0-# +", *format))
+	while (*fmt && ft_strchr("0-# +", *fmt))
 	{
-		if (*format == '0')
+		if (*fmt == '0')
 			flags.zero = 1;
-		else if (*format == '-')
+		else if (*fmt == '-')
 			flags.minus = 1;
-		else if (*format == '#')
+		else if (*fmt == '#')
 			flags.hash = 1;
-		else if (*format == ' ')
+		else if (*fmt == ' ')
 			flags.space = 1;
-		else if (*format == '+')
+		else if (*fmt == '+')
 			flags.plus = 1;
-		format++;
+		fmt++;
 	}
-	ft_parse_width(format, &flags);
-	while (ft_isdigit(*format))
-		format++;
-	ft_parse_precision(format, &flags);
+	ft_parse_width(fmt, &flags);
+	while (ft_isdigit(*fmt))
+		fmt++;
+	ft_parse_precision(fmt, &flags);
 	return (flags);
 }

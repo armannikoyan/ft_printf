@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:28:47 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/13 00:40:59 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:33:30 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*ft_uitoa_base(size_t u_nbr, int base)
 	if (!u_nbr)
 		return (ft_strdup("0"));
 	str = malloc(sizeof(char) * ft_itoa_base_strlen(u_nbr, base));
+	if (!str)
+		return (NULL);
 	head = str;
 	while (u_nbr)
 	{
@@ -50,5 +52,6 @@ char	*ft_uitoa_base(size_t u_nbr, int base)
 		u_nbr /= base;
 	}
 	*str = '\0';
+	ft_strrev(head);
 	return (head);
 }

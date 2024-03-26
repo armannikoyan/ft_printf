@@ -6,54 +6,56 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:52:25 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/13 00:37:02 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:49:12 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-static int	ft_printf_helper(char c, va_list *args, t_flags flags)
+static int	ft_print_type(char c, t_flags *flags, va_list *listp)
 {
 	if (c == 'c')
-		return (ft_printf_char(va_arg(*args, int), flags));
-	if (c == '%')
-		return (ft_printf_char('%', flags));
-	if (c == 's')
-		return (ft_printf_string(va_arg(*args, char *), flags));
-	if (c == 'u')
-		return (ft_printf_unsigned(va_arg(*args, unsigned int), flags));
-	if (c == 'd' || c == 'i')
-		return (ft_printf_int(va_arg(*args, int), flags));
-	if (c == 'x' || c == 'X')
-		return (ft_printf_hex(va_arg(*args, unsigned int), flags, c));
-	if (c == 'p')
-		return (ft_printf_pointer(va_arg(*args, size_t), flags));
+		return (ft_print_char(va_arg(*listp, int), flags));
+	else if (c == 's')
+		return (ft_print_string(va_arg(*listp, char *), flags));
+	else if (c == 'd' || c == 'i')
+		return (ft_print_int(va_arg(*listp, int), flags));
+	else if (c == 'u')
+		return (ft_print_unsigned(va_arg(*listp, unsigned int), flags));
+	else if (c == 'x' || c == 'X')
+		return (ft_print_hex(va_arg(*listp, unsigned int), flags, c));
+	else if (c == 'p')
+		return (ft_print_pointer(va_arg(*listp, size_t), flags));
+	else if (c == '%')
+		return (ft_print_char('%', flags));
 	return (0);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_printf(const char *fmt, ...)
 {
 	int		result;
-	int		i;
-	va_list	args;
+	int		tmp;
+	va_list	listp;
 	t_flags	flags;
 
-	va_start(args, format);
+	va_start(listp, fmt);
 	result = 0;
-	i = 0;
-	while (format[i])
+	while (*fmt)
 	{
-		if (format[i] == '%')
+		if (*fmt == '%')
 		{
-			flags = ft_printf_parse_flags(&format[++i]);
-			while (ft_strchr("0.-# +", format[i]) || ft_isdigit(format[i]))
-				i++;
-			result += ft_printf_helper(format[i], &args, flags);
+			flags = ft_printf_parse_flags(++fmt);
+			while (ft_strchr("0.-# +", *fmt) || ft_isdigit(*fmt))
+				fmt++;
+			tmp = ft_print_type(*fmt, &flags, &listp);
 		}
 		else
-			ft_printf_putchar(2, format[i], &result);
-		i++;
+			tmp = ft_putchar(*fmt);
+		if (tmp == -1)
+			return (-1);
+		result += tmp;
+		fmt++;
 	}
-	va_end(args);
+	va_end(listp);
 	return (result);
 }
