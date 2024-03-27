@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:52:25 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/25 18:49:12 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/27 19:26:09 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_printf(const char *fmt, ...)
 
 	va_start(listp, fmt);
 	result = 0;
-	while (*fmt)
+	while (*fmt && result != -1)
 	{
 		if (*fmt == '%')
 		{
@@ -51,9 +51,9 @@ int	ft_printf(const char *fmt, ...)
 		}
 		else
 			tmp = ft_putchar(*fmt);
-		if (tmp == -1)
-			return (-1);
 		result += tmp;
+		if (tmp == -1)
+			result = -1;
 		fmt++;
 	}
 	va_end(listp);

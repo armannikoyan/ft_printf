@@ -6,7 +6,7 @@
 #    By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/10 18:24:23 by anikoyan          #+#    #+#              #
-#    Updated: 2024/03/26 17:32:46 by anikoyan         ###   ########.fr        #
+#    Updated: 2024/03/27 11:24:57 by anikoyan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = libftprintf.a
 
 SRCS_DIR = src
 SRCS = $(SRCS_DIR)/ft_printf.c $(SRCS_DIR)/ft_putchar.c $(SRCS_DIR)/ft_strrev.c \
-       $(SRCS_DIR)/ft_uitoa.c $(SRCS_DIR)/ft_uitoa_base.c $(SRCS_DIR)/ft_removeprefix.c $(SRCS_DIR)/ft_print_char.c \
+       $(SRCS_DIR)/ft_uitoa.c $(SRCS_DIR)/ft_uitoa_base.c $(SRCS_DIR)/ft_removeprefix.c \
+       $(SRCS_DIR)/ft_strcpy.c $(SRCS_DIR)/ft_strcat.c $(SRCS_DIR)/ft_print_char.c \
        $(SRCS_DIR)/ft_print_string.c $(SRCS_DIR)/ft_printf_parse_flags.c $(SRCS_DIR)/ft_printf_unsigned.c \
        $(SRCS_DIR)/ft_printf_int.c $(SRCS_DIR)/ft_printf_hex.c $(SRCS_DIR)/ft_printf_pointer.c 
 OBJS_DIR = obj
