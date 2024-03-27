@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 21:01:48 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/26 16:58:19 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/26 21:17:39 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	ft_parse_width(const char *fmt, t_flags *flags)
 	if (ft_isdigit(*fmt))
 	{
 		if (!flags->zero && flags->minus == -1 && !flags->hash
-			&& !flags->space && !flags->plus)
+			&& !flags->space)
 			flags->minus = 0;
 		flags->width = ft_atoi(fmt);
 	}
