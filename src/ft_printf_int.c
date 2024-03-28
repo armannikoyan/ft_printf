@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:44:29 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/28 17:21:34 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:56:31 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	ft_padding_width(char *number, t_flags *flags)
 	}
 	if (flags->plus == 1 && number[0] != '-')
 		padding_width--;
-	if (flags->space == 1 && padding_width <= 0 && number[0] != '-')
-		padding_width = 1;
+	// if (flags->space == 1 && padding_width <= 0 && number[0] != '-')
+	// 	padding_width = 1;
 	if (flags->zero == 1 && padding_width > 0 && (len == 0
 			|| flags->precision >= 0))
 	{
@@ -57,14 +57,23 @@ static char	*ft_process_flags(char *number, int *padding_width
 	}
 	len = (int)ft_strlen(number);
 	*padding_width = ft_padding_width(number, flags);
-	if ((flags->minus == 0 || (flags->space == 1))
-		&& *padding_width > 0)
+	if (flags->minus == 0 && *padding_width > 0)
 	{
 		if (ft_putsymseq(' ', padding_width, result) == -1)
 		{
 			free(number);
 			return (NULL);
 		}
+	}
+	if (flags->space == 1 && number[0] != '-' && flags->plus == 0
+		&& (flags->minus == -1 || (flags->minus != -1 && *padding_width <= 0)))
+	{
+		if (ft_putchar(' ', result) == -1)
+		{
+			free(number);
+			return (NULL);
+		}
+		(*padding_width)--;
 	}
 	if (flags->plus == 1 && number[0] != '-')
 	{
