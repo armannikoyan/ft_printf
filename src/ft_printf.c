@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:52:25 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/27 19:26:09 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/28 05:59:58 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_printf(const char *fmt, ...)
 			tmp = ft_print_type(*fmt, &flags, &listp);
 		}
 		else
-			tmp = ft_putchar(*fmt);
+			tmp = write(1, fmt, 1);
 		result += tmp;
 		if (tmp == -1)
 			result = -1;

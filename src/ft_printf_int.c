@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:44:29 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/27 23:01:27 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/28 07:00:11 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,23 @@ static int	ft_padding_width(char *number, t_flags *flags)
 	int	padding_width;
 	int	len;
 
-	padding_width = 0;
 	len = (int)ft_strlen(number);
-	padding_width = flags->width - len;
+	if (flags->precision - len > 0)
+		padding_width = flags->width - flags->precision;
+	else
+		padding_width = flags->width - len;
 	if (padding_width < 0)
 		padding_width = 0;
+	else if (flags->plus == 1 && number[0] != '-')
+		padding_width--;
+	if (padding_width == 0 && flags->space == 1 && number[0] != '-')
+		padding_width++;
 	return (padding_width);
 }
 
-char	*ft_process_flags(char *number, int padding_width, t_flags *flags)
+static char	*ft_process_flags(char *number, int *padding_width, int *result, t_flags *flags)
 {
-	char	*new_number;
 	char	*ptr;
-	int		i;
 	int		len;
 
 	if (flags->precision == 0 && number[0] == '0')
@@ -39,82 +43,64 @@ char	*ft_process_flags(char *number, int padding_width, t_flags *flags)
 		if (!number)
 			return (NULL);
 	}
-	len = (int)ft_strlen(number);
-	if (*number == '-')
-		flags->precision++;
-	if (flags->precision > len && len > 0)
+	*padding_width = ft_padding_width(number, flags);
+	if ((flags->minus == 0 || flags->space == 1) && *padding_width > 0)
 	{
-		new_number = (char *)malloc(sizeof(char) * (flags->precision + 1));
-		if (!new_number)
+		if (ft_putsymseq(' ', padding_width, result) == -1)
 		{
 			free(number);
 			return (NULL);
 		}
-		i = 0;
-		ptr = number;
-		if (*number == '-')
-		{
-			new_number[i++] = *number++;
-			flags->precision++;
-		}
-		while (i < flags->precision - len)
-			new_number[i++] = '0';
-		while (*number)
-			new_number[i++] = *number++;
-		new_number[i] = '\0';
-		free(ptr);
-		number = new_number;
 	}
-	len = (int)ft_strlen(number);
-	i = 0;
 	if (flags->plus == 1 && number[0] != '-')
 	{
-		new_number = (char *)malloc(sizeof(char) * (len + 2));
-		if (!new_number)
+		if (ft_putchar('+', result) == -1)
 		{
 			free(number);
 			return (NULL);
 		}
-		ptr = number;
-		new_number[i++] = '+';
-		while (*number && i < len + 1)
-			new_number[i++] = *number++;
-		new_number[i] = '\0';
-		free(ptr);
-		number = new_number;
+		(*padding_width)--;
+	}
+	if (flags->precision > 0 && flags->zero == 1 && *padding_width > 0)
+	{
+		flags->precision -= *padding_width;
+		if (ft_putsymseq(' ', padding_width, result) == -1)
+		{
+			free(number);
+			return (NULL);
+		}
 	}
 	len = (int)ft_strlen(number);
-	i = 0;
-	padding_width = ft_padding_width(number, flags);
-	if (flags->minus != -1 && padding_width > 0)
+	if (number[0] == '-')
 	{
-		new_number = (char *)malloc(sizeof(char) * (len + padding_width + 1));
-		if (!new_number)
+		if (ft_putchar('-', result) == -1)
 		{
 			free(number);
 			return (NULL);
 		}
-		if (flags->minus == 0)
+		ptr = ft_strdup(number + 1);
+		free(number);
+		if (!ptr)
+			return (NULL);
+		number = ptr;
+		flags->precision++;
+	}
+	if (flags->zero == 1 && flags->precision <= 0 && *padding_width > 0)
+	{
+		if (ft_putsymseq('0', padding_width, result) == -1)
 		{
-			ptr = number;
-			while (i < padding_width)
-				new_number[i++] = ' ';
-			while (*number && i < len + padding_width)
-				new_number[i++] = *number++;
-			new_number[i] = '\0';
-			free(ptr);
+			free(number);
+			return (NULL);
 		}
-		else
+	}
+	if (flags->precision - len > 0)
+	{
+		flags->precision -= len;
+		if (ft_putsymseq('0', &flags->precision, result) == -1)
 		{
-			ptr = number;
-			while (*number)
-				new_number[i++] = *number++;
-			while (i < len + padding_width)
-				new_number[i++] = ' ';
-			new_number[i] = '\0';
-			free(ptr);
+			free(number);
+			return (NULL);
 		}
-		number = new_number;
 	}
 	return (number);
 }
@@ -123,7 +109,6 @@ int	ft_print_int(int nbr, t_flags *flags)
 {
 	char	*number;
 	int		result;
-	int		len;
 	int		padding_width;
 
 	number = ft_itoa(nbr);
@@ -131,16 +116,16 @@ int	ft_print_int(int nbr, t_flags *flags)
 		return (-1);
 	result = 0;
 	padding_width = ft_padding_width(number, flags);
-	number = ft_process_flags(number, padding_width, flags);
+	number = ft_process_flags(number, &padding_width, &result, flags);
 	if (!number)
 		return (-1);
-	len = (int)ft_strlen(number);
-	if (number)
+	result += ft_putstr(number);
+	free(number);
+	if (flags->minus == 1 && padding_width > 0)
 	{
-		result += len;
-		if (ft_printf("%s", number) == -1)
-			result = -1;
-		free(number);
+		if (ft_putsymseq(' ', &padding_width, &result) == -1)
+			return (-1);
 	}
 	return (result);
 }
+

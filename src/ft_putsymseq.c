@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_putsymseq.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 23:46:32 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/28 02:56:58 by anikoyan         ###   ########.fr       */
+/*   Created: 2024/03/28 04:31:41 by anikoyan          #+#    #+#             */
+/*   Updated: 2024/03/28 06:24:14 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../ft_printf.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+int	ft_putsymseq(char c, int *count, int *result)
 {
-	unsigned char	*dst_ptr;
-	unsigned char	*src_ptr;
+	char	*str;
+	int		i;
 
-	if ((!dst && !src) || n == 0)
-		return (dst);
-	dst_ptr = (unsigned char *)dst;
-	src_ptr = (unsigned char *)src;
-	while (n--)
-		*dst_ptr++ = *src_ptr++;
-	return (dst);
+	str = (char *)malloc(sizeof(char) * (*count + 1));
+	if (!str)
+		return (-1);
+	i = 0;
+	while (i < *count)
+		str[i++] = c;
+	str[i] = '\0';
+	if (write(1, str, *count) == -1)
+		*count = -1;
+	free(str);
+	*result += *count;
+	return (*count);
 }

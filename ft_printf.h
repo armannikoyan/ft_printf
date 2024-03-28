@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:44:12 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/27 11:24:05 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/28 06:16:31 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ char	*ft_uitoa(unsigned int u_nbr);
 char	*ft_uitoa_base(size_t u_nbr, int base);
 char	*ft_removeprefix(char *str, char c);
 
-int		ft_putchar(char c);
+int		ft_putchar(char c, int *result);
+int		ft_putstr(char *str);
+int		ft_putsymseq(char c, int *count, int *result);
 int		ft_printf(const char *fmt, ...);
 int		ft_print_char(char c, t_flags *flags);
 int		ft_print_string(char *str, t_flags *flags);

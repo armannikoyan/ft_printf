@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 23:46:32 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/28 02:56:58 by anikoyan         ###   ########.fr       */
+/*   Created: 2024/03/28 04:28:05 by anikoyan          #+#    #+#             */
+/*   Updated: 2024/03/28 04:30:25 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../ft_printf.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+int	ft_putstr(char *str)
 {
-	unsigned char	*dst_ptr;
-	unsigned char	*src_ptr;
+	int	len;
 
-	if ((!dst && !src) || n == 0)
-		return (dst);
-	dst_ptr = (unsigned char *)dst;
-	src_ptr = (unsigned char *)src;
-	while (n--)
-		*dst_ptr++ = *src_ptr++;
-	return (dst);
+	len = (int)ft_strlen(str);
+	if (write(1, str, len) == -1)
+		return (-1);
+	return (len);
 }

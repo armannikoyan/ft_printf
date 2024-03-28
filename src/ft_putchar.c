@@ -6,13 +6,14 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 01:04:28 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/21 01:05:16 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/28 05:43:45 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-int	ft_putchar(char c)
+int	ft_putchar(char c, int *result)
 {
+	*result += 1;
 	return (write(1, &c, 1));
 }

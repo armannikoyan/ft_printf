@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 23:44:03 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/02/01 23:44:04 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/28 02:51:59 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_digit_count(int n)
 
 	count = 0;
 	if (!n)
-		count++;
+		return (1);
 	while (n)
 	{
 		count++;
@@ -40,7 +40,7 @@ char	*ft_itoa(int n)
 	number = malloc(sizeof(char) * (str_len + 1));
 	if (!number)
 		return (NULL);
-	number[str_len] = '\0';
+	number[str_len--] = '\0';
 	if (n == 0)
 		number[0] = '0';
 	else if (n < 0)
@@ -50,7 +50,7 @@ char	*ft_itoa(int n)
 	}
 	while (n)
 	{
-		number[--str_len] = n % 10 + '0';
+		number[str_len--] = n % 10 + '0';
 		n /= 10;
 	}
 	return (number);
