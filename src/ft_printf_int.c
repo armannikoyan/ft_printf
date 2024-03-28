@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:44:29 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/28 17:56:31 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:59:05 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int	ft_print_int(int nbr, t_flags *flags)
 {
 	char	*number;
 	int		result;
+	int		len;
 	int		padding_width;
 
 	number = ft_itoa(nbr);
@@ -145,8 +146,11 @@ int	ft_print_int(int nbr, t_flags *flags)
 	number = ft_process_flags(number, &padding_width, &result, flags);
 	if (!number)
 		return (-1);
-	result += ft_putstr(number);
+	len = ft_putstr(number);
 	free(number);
+	if (len == -1)
+		return (-1);
+	result += len;
 	if (flags->minus == 1 && padding_width > 0)
 	{
 		if (ft_putsymseq(' ', &padding_width, &result) == -1)
