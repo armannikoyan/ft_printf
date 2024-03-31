@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_pointer.c                                :+:      :+:    :+:   */
+/*   ft_print_pointer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 00:27:06 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/25 18:46:43 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/03/31 11:35:13 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static char	*ft_padding(char c, int width)
 	return (padding);
 }
 
-static char	*ft_process_flags(char *hex, int *padding_width, t_flags *flags)
+static char	*ft_process_flags_pointer(char *hex, int *padding_width
+		, t_flags *flags)
 {
 	char	*padding;
 	char	*temp;
@@ -83,7 +84,7 @@ int	ft_print_pointer(size_t u_nbr, t_flags *flags)
 	if (!hex)
 		return (-1);
 	padding_width = 0;
-	hex = ft_process_flags(hex, &padding_width, flags);
+	hex = ft_process_flags_pointer(hex, &padding_width, flags);
 	if (!hex)
 		return (-1);
 	len = ft_strlen(hex);
