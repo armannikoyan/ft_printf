@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_parse_flags.c                            :+:      :+:    :+:   */
+/*   ft_print_parse_flags.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 21:01:48 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/28 16:51:15 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:19:06 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ static void	ft_init_flags(t_flags *flags)
 	flags->plus = 0;
 	flags->width = 0;
 	flags->precision = -1;
+	flags->upper = 0;
 }
 
 static void	ft_parse_width(const char *fmt, t_flags *flags)
 {
 	if (ft_isdigit(*fmt))
 	{
-		if (!flags->zero && flags->minus == -1 && !flags->hash)
+		if (!flags->zero && flags->minus == -1)
 			flags->minus = 0;
 		flags->width = ft_atoi(fmt);
 	}

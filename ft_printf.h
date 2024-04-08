@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:44:12 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/31 11:29:17 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:20:23 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_flags
 	int	plus;
 	int	width;
 	int	precision;
+	int	upper;
 }		t_flags;
 
 void	ft_strrev(char *str);
@@ -47,7 +48,7 @@ int		ft_print_char(char c, t_flags *flags);
 int		ft_print_string(char *str, t_flags *flags);
 int		ft_print_unsigned(unsigned int u_nbr, t_flags *flags);
 int		ft_print_int(int nbr, t_flags *flags);
-int		ft_print_hex(unsigned int u_nbr, t_flags *flags, char c);
+int		ft_print_hex(unsigned int u_nbr, t_flags *flags);
 int		ft_print_pointer(size_t u_nbr, t_flags *flags);
 
 t_flags	ft_printf_parse_flags(const char *fmt);

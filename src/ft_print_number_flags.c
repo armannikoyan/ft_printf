@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 11:03:51 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/31 11:26:13 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:26:36 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,26 @@ static char	*ft_process_minus_space(char *number, int *padding_width
 			free(number);
 			return (NULL);
 		}
+	}
+	if (flags->hash == 1 && number[0] != '0' && (int)ft_strlen(number) > 0)
+	{
+		if (flags->upper)
+		{
+			if (write(1, "0X", 2) == -1)
+			{
+				free(number);
+				return (NULL);
+			}
+		}
+		else
+		{
+			if (write(1, "0x", 2) == -1)
+			{
+				free(number);
+				return (NULL);
+			}
+		}
+		*result += 2;
 	}
 	if (flags->space == 1 && number[0] != '-' && flags->plus == 0
 		&& (flags->minus == -1 || (flags->minus == 0

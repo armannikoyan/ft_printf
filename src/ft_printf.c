@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:52:25 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/28 05:59:58 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:20:06 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ static int	ft_print_type(char c, t_flags *flags, va_list *listp)
 	else if (c == 'u')
 		return (ft_print_unsigned(va_arg(*listp, unsigned int), flags));
 	else if (c == 'x' || c == 'X')
-		return (ft_print_hex(va_arg(*listp, unsigned int), flags, c));
+	{
+		if (c == 'X')
+			flags->upper = 1;
+		return (ft_print_hex(va_arg(*listp, unsigned int), flags));
+	}
 	else if (c == 'p')
 		return (ft_print_pointer(va_arg(*listp, size_t), flags));
 	else if (c == '%')

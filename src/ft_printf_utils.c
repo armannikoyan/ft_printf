@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:26:18 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/31 11:30:36 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:09:23 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ int	ft_padding_width(char *number, t_flags *flags)
 		padding_width = flags->width - flags->precision;
 	else if (flags->precision > len)
 		padding_width = flags->width - flags->precision;
-	if (flags->precision >= len)
-	{
-		if (number[0] == '-')
-			padding_width--;
-	}
-	if (flags->plus == 1 && number[0] != '-')
+	if ((flags->precision >= len && number[0] == '-') || (flags->plus == 1
+			&& number[0] != '-'))
 		padding_width--;
 	if (flags->zero == 1 && padding_width > 0 && (len == 0
 			|| flags->precision >= 0))
@@ -37,6 +33,8 @@ int	ft_padding_width(char *number, t_flags *flags)
 		flags->minus = 0;
 		flags->zero = 0;
 	}
+	if (flags->hash == 1 && number[0] != '0' && len > 0)
+		padding_width -= 2;
 	return (padding_width);
 }
 
