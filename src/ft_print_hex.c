@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:55:00 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:35:40 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:00:55 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,25 @@ static void	ft_str_toupper(char *str, int upper)
 	}
 }
 
+static int	ft_print_hex_helper(char *hex, int *result)
+{
+	int	len;
+
+	len = ft_strlen(hex);
+	*result += len;
+	if (ft_printf("%s", hex) == -1)
+	{
+		free(hex);
+		return (-1);
+	}
+	free(hex);
+	return (1);
+}
+
 int	ft_print_hex(unsigned int u_nbr, t_flags *flags)
 {
 	char	*hex;
 	int		result;
-	int		len;
 	int		padding_width;
 
 	result = 0;
@@ -40,14 +54,8 @@ int	ft_print_hex(unsigned int u_nbr, t_flags *flags)
 	if (!hex)
 		return (-1);
 	ft_str_toupper(hex, flags->upper);
-	len = ft_strlen(hex);
-	result += len;
-	if (ft_printf("%s", hex) == -1)
-	{
-		free(hex);
+	if (ft_print_hex_helper(hex, &result) == -1)
 		return (-1);
-	}
-	free(hex);
 	if (flags->minus == 1 && padding_width > 0)
 	{
 		if (ft_putsymseq(' ', &padding_width, &result) == -1)
