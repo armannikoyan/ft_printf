@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:44:12 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 17:28:39 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:51:00 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_flags
 }		t_flags;
 
 void	ft_strrev(char *str);
-void	ft_str_toupper(char *str, char c);
+void	ft_str_toupper(char *str, int upper);
 
 char	*ft_uitoa(unsigned int u_nbr);
 char	*ft_uitoa_base(size_t u_nbr, int base);
