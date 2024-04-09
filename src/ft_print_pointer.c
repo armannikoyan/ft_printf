@@ -6,58 +6,37 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 00:27:06 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/31 11:35:13 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:37:31 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-static char	*ft_padding(char c, int width)
+static int	ft_print_width(int *padding_width, t_flags *flags, int *result)
 {
-	char	*padding;
-
-	padding = NULL;
-	padding = (char *)malloc(sizeof(char) * (width + 1));
-	if (!padding)
-		return (NULL);
-	padding[width] = '\0';
-	while (width--)
-		padding[width] = c;
-	return (padding);
-}
-
-static char	*ft_process_flags_pointer(char *hex, int *padding_width
-		, t_flags *flags)
-{
-	char	*padding;
-	char	*temp;
-
-	padding = NULL;
-	temp = NULL;
-	if (flags->width > (int)ft_strlen(hex))
+	if (flags->minus == 0 && *padding_width > 0)
 	{
-		*padding_width = flags->width - ft_strlen(hex);
-		padding = ft_padding(' ', *padding_width);
-		if (!padding)
-		{
-			free(hex);
-			return (NULL);
-		}
-		temp = hex;
-		if (flags->minus == 0)
-			hex = ft_strjoin(padding, hex);
-		else if (flags->minus == 1)
-			hex = ft_strjoin(hex, padding);
-		free(temp);
-		free(padding);
-		if (!hex)
-			return (NULL);
+		*result += *padding_width;
+		if (ft_putchar_n(' ', padding_width) == -1)
+			return (-1);
 	}
-	return (hex);
+	return (1);
 }
 
-static char	*ft_convert_pointer(char *hex, size_t u_nbr)
+static int	ft_print_minus(int *padding_width, t_flags *flags, int *result)
 {
+	if (flags->minus == 1 && *padding_width > 0)
+	{
+		*result += *padding_width;
+		if (ft_putchar_n(' ', padding_width) == -1)
+			return (-1);
+	}
+	return (1);
+}
+
+static char	*ft_convert_pointer(size_t u_nbr)
+{
+	char	*hex;
 	char	*ptr;
 
 	hex = ft_uitoa_base(u_nbr, 16);
@@ -75,25 +54,21 @@ int	ft_print_pointer(size_t u_nbr, t_flags *flags)
 {
 	char	*hex;
 	int		result;
-	int		len;
 	int		padding_width;
 
 	result = 0;
-	hex = NULL;
-	hex = ft_convert_pointer(hex, u_nbr);
+	hex = ft_convert_pointer(u_nbr);
 	if (!hex)
 		return (-1);
-	padding_width = 0;
-	hex = ft_process_flags_pointer(hex, &padding_width, flags);
-	if (!hex)
-		return (-1);
-	len = ft_strlen(hex);
-	if (hex)
+	padding_width = ft_padding_width(hex, flags);
+	if (ft_print_width(&padding_width, flags, &result) == -1
+		|| ft_printf("%s", hex) == -1
+		|| ft_print_minus(&padding_width, flags, &result) == -1)
 	{
-		result += len;
-		if (ft_printf("%s", hex) == -1)
-			result = -1;
 		free(hex);
+		return (-1);
 	}
+	result += (int)ft_strlen(hex);
+	free(hex);
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:08:48 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 15:13:52 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:39:00 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,10 @@ int	ft_print_string(char *str, t_flags *flags)
 	if (flags->precision >= 0 && flags->precision < len)
 		len = flags->precision;
 	padding_width = flags->width - len;
-	if (ft_print_width(&padding_width, flags, &result) == -1)
-		return (-1);
-	if (write(1, str, len) == -1)
+	if (ft_print_width(&padding_width, flags, &result) == -1
+		|| write(1, str, len) == -1
+		|| ft_print_minus(&padding_width, flags, &result) == -1)
 		return (-1);
 	result += len;
-	if (ft_print_minus(&padding_width, flags, &result) == -1)
-		return (-1);
 	return (result);
 }
