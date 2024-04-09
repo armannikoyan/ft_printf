@@ -6,23 +6,11 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:55:00 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 15:15:48 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:28:14 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
-
-static void	ft_str_toupper(char *str, int upper)
-{
-	if (upper)
-	{
-		while (*str)
-		{
-			*str = ft_toupper(*str);
-			str++;
-		}
-	}
-}
 
 static int	ft_print_hex_helper(char *hex, int *result)
 {
