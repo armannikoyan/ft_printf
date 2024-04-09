@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 11:03:51 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:54:43 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:14:54 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static char	*ft_process_minus_space(char *number, int *padding_width
 {
 	if (flags->minus == 0 && *padding_width > 0)
 	{
-		if (ft_putsymseq(' ', padding_width, result) == -1)
+		*result += *padding_width;
+		if (ft_putchar_n(' ', padding_width) == -1)
 		{
 			free(number);
 			return (NULL);
@@ -73,7 +74,8 @@ static char	*ft_process_zero_precision(char *number, int *padding_width
 	number = ft_removeminus(number, result, &len);
 	if (flags->zero == 1 && *padding_width > 0)
 	{
-		if (ft_putsymseq('0', padding_width, result) == -1)
+		*result += *padding_width;
+		if (ft_putchar_n('0', padding_width) == -1)
 		{
 			free(number);
 			return (NULL);
@@ -82,7 +84,8 @@ static char	*ft_process_zero_precision(char *number, int *padding_width
 	if (flags->precision - len > 0)
 	{
 		flags->precision -= len;
-		if (ft_putsymseq('0', &flags->precision, result) == -1)
+		*result += flags->precision;
+		if (ft_putchar_n('0', &flags->precision) == -1)
 		{
 			free(number);
 			return (NULL);

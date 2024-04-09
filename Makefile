@@ -6,7 +6,7 @@
 #    By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/10 18:24:23 by anikoyan          #+#    #+#              #
-#    Updated: 2024/03/31 11:31:41 by anikoyan         ###   ########.fr        #
+#    Updated: 2024/04/09 14:59:48 by anikoyan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS = $(SRCS_DIR)/ft_printf.c $(SRCS_DIR)/ft_putchar.c $(SRCS_DIR)/ft_strrev.c 
        $(SRCS_DIR)/ft_strcpy.c $(SRCS_DIR)/ft_strcat.c $(SRCS_DIR)/ft_print_char.c \
        $(SRCS_DIR)/ft_print_string.c $(SRCS_DIR)/ft_print_parse_flags.c $(SRCS_DIR)/ft_print_number_flags.c \
        $(SRCS_DIR)/ft_print_unsigned.c $(SRCS_DIR)/ft_print_int.c $(SRCS_DIR)/ft_print_hex.c \
-       $(SRCS_DIR)/ft_print_pointer.c $(SRCS_DIR)/ft_putsymseq.c $(SRCS_DIR)/ft_putstr.c
+       $(SRCS_DIR)/ft_print_pointer.c $(SRCS_DIR)/ft_putchar_n.c $(SRCS_DIR)/ft_putstr.c
 OBJS_DIR = obj
 OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 

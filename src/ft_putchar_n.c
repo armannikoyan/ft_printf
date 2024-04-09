@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putsymseq.c                                     :+:      :+:    :+:   */
+/*   ft_putchar_n.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 04:31:41 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/28 16:07:28 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:07:19 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-int	ft_putsymseq(char c, int *count, int *result)
+int	ft_putchar_n(char c, int *count)
 {
 	char	*str;
 	int		i;
@@ -27,6 +27,5 @@ int	ft_putsymseq(char c, int *count, int *result)
 	if (write(1, str, *count) == -1)
 		*count = -1;
 	free(str);
-	*result += *count;
 	return (*count);
 }

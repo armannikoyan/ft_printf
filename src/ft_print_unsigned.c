@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:00:15 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/03/31 11:27:50 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:15:26 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	ft_print_unsigned(unsigned int u_nbr, t_flags *flags)
 	result += len;
 	if (flags->minus == 1 && padding_width > 0)
 	{
-		if (ft_putsymseq(' ', &padding_width, &result) == -1)
+		result += padding_width;
+		if (ft_putchar_n(' ', &padding_width) == -1)
 			return (-1);
 	}
 	return (result);
