@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 11:03:51 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 15:14:54 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:37:04 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static char	*ft_process_minus_space(char *number, int *padding_width
 		&& (flags->minus == -1 || (flags->minus == 0
 				&& *padding_width <= 0) || flags->minus == 1))
 	{
-		if (ft_putchar(' ', result) == -1)
+		*result += 1;
+		if (ft_putchar(' ') == -1)
 		{
 			free(number);
 			return (NULL);
@@ -110,7 +111,8 @@ char	*ft_process_flags(char *number, int *padding_width
 		return (NULL);
 	if (flags->plus == 1 && number[0] != '-')
 	{
-		if (ft_putchar('+', result) == -1)
+		*result += 1;
+		if (ft_putchar('+') == -1)
 		{
 			free(number);
 			return (NULL);

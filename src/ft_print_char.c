@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:51:55 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 15:13:33 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:36:11 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	ft_print_char(char c, t_flags *flags)
 	result = 0;
 	if (ft_print_width(flags, &result) == -1)
 		return (-1);
-	if (ft_putchar(c, &result) == -1)
+	result++;
+	if (ft_putchar(c) == -1)
 		return (-1);
 	if (ft_print_minus(flags, &result) == -1)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:26:18 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:09:23 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:35:43 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ char	*ft_removeminus(char *number, int *result, int *len)
 
 	if (number[0] == '-')
 	{
-		if (ft_putchar('-', result) == -1)
+		*result += 1;
+		if (ft_putchar('-') == -1)
 		{
 			free(number);
 			return (NULL);

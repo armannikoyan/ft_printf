@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:44:12 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 15:07:29 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:35:04 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_removeminus(char *number, int *result, int *len);
 char	*ft_process_flags(char *number, int *padding_width, int *result,
 			t_flags *flags);
 
-int		ft_putchar(char c, int *result);
+int		ft_putchar(char c);
 int		ft_putstr(char *str);
 int		ft_putchar_n(char c, int *count);
 int		ft_padding_width(char *number, t_flags *flags);
