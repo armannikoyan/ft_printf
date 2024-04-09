@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:44:12 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 16:04:32 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:53:20 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_strrev(char *str);
 
 char	*ft_uitoa(unsigned int u_nbr);
 char	*ft_uitoa_base(size_t u_nbr, int base);
-char	*ft_removeminus(char *number, int *result, int *len);
 char	*ft_process_flags(char *number, int *padding_width, int *result,
 			t_flags *flags);
 

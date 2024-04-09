@@ -6,11 +6,33 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 11:03:51 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 15:37:04 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:53:12 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
+
+static char	*ft_removeminus(char *number, int *result, int *len)
+{
+	char	*ptr;
+
+	if (number[0] == '-')
+	{
+		*result += 1;
+		if (ft_putchar('-') == -1)
+		{
+			free(number);
+			return (NULL);
+		}
+		ptr = ft_strdup(number + 1);
+		free(number);
+		if (!ptr)
+			return (NULL);
+		number = ptr;
+		(*len)--;
+	}
+	return (number);
+}
 
 static int	ft_process_hash(char *number, int *result, t_flags *flags)
 {

@@ -6,7 +6,7 @@
 /*   By: anikoyan <anikoyan@student.42yerevan.am>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:26:18 by anikoyan          #+#    #+#             */
-/*   Updated: 2024/04/09 15:35:43 by anikoyan         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:53:36 by anikoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,4 @@ int	ft_padding_width(char *number, t_flags *flags)
 	if (flags->hash == 1 && number[0] != '0' && len > 0)
 		padding_width -= 2;
 	return (padding_width);
-}
-
-char	*ft_removeminus(char *number, int *result, int *len)
-{
-	char	*ptr;
-
-	if (number[0] == '-')
-	{
-		*result += 1;
-		if (ft_putchar('-') == -1)
-		{
-			free(number);
-			return (NULL);
-		}
-		ptr = ft_strdup(number + 1);
-		free(number);
-		if (!ptr)
-			return (NULL);
-		number = ptr;
-		(*len)--;
-	}
-	return (number);
 }
